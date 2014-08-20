@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>module pattern</title>
+</head>
+<body>
+    <div class="app"></div>
+    <ul class="app"></ul>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="scripts/app-jquery-plugin.js"></script>
+    <script>
+        // $.fn.queryApp.options.limit = 5;
+
+        $('div.app').queryApp({search:'custom'});
+        // $('ul.app').queryApp('custom');
+
+        $('div.app').queryApp({
+            search: 'custom search',
+            limit: 3,
+            // onComplete: function(){
+            //     console.log( arguments );
+            // },
+            refresh: 5000,
+            transition: 'slideToggle'
+        });
+
+        console.log( $.data( $('div.app')[0], 'queryApp' ) );
+    </script>
+</body>
+</html>

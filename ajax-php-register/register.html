@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form action="register.php" id="register" method="post">
+        name: <input type="text" name="name" class="required"> <br>
+        age: <input type="text" name="age" class="required"> <br>
+        <input type="submit" value="submit">
+    </form>
+
+    <div class="result"></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+
+    $('#register').submit(function(e){
+        e.preventDefault();
+        
+        var ajaxUrl = $(this).attr('action'),
+            postData = $(this).serializeArray(),
+            emptyRequiredFields = false;
+
+        $('.required').each(function(){
+            if( !$.trim( $(this).val() ) ){
+                emptyRequiredFields = true;
+            }
+        });
+
+        if ( !emptyRequiredFields ){
+            $.ajax({
+                url: ajaxUrl,
+                type: 'POST',
+                data: postData,
+                success: function(data){
+                    $('.result').html(data);
+                    $('#register').find(':input:not([type=submit])').each(function(){
+                            $(this).val('');
+                    });
+                }
+            });
+        } else {
+            console.log('please enter the values')
+        }
+    });
+    </script>
+</body>
+</html>
