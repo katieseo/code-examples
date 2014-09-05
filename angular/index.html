@@ -1,0 +1,27 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Angular examples</title>
+    <style>
+        .primary { color: #F47D49; }
+        .active { color: #F47D49; }
+    </style>
+</head>
+<body ng-app="myApp">
+    Hello from index
+
+    <navbar></navbar>
+
+    <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/navbar.js"></script>
+    <script src="scripts/directives/navbar.js"></script>
+    <script src="scripts/services/tests.js"></script>
+</body>
+</html>

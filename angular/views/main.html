@@ -1,0 +1,18 @@
+<h3>ng-include from views/main.html</h3>
+
+<h3 ng-class="{primary: val1 || val2 == 'something'}">ng-class</h3>
+
+<h3>ng-repeat</h3>
+<ul>
+    <li ng-repeat="thing in awesomeThings">{{thing}}</li>
+</ul>
+
+<ul>
+    <li ng-repeat-start="test in tests" ng-click="selectTest(test)">
+        <span class="label">{{test.category.name}}</span> / {{test.name}}
+        <span class="text-muted">( {{ displayRequirements(test.requirements) }} )</span>
+    </li>
+    <li ng-repeat-end ng-show="isSelected(test)">
+        {{test.description}}
+    </li>
+</ul>
