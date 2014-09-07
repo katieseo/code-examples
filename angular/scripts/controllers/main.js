@@ -9,7 +9,7 @@
  */
 
 angular.module('myApp')
-    .controller('MainCtrl', ['$scope', 'tests', function ($scope, tests) {
+    .controller('MainCtrl', ['$scope', 'Items', function ($scope, Items) {
         
         $scope.val1 = true;
         $scope.val2 = 'something';
@@ -20,9 +20,9 @@ angular.module('myApp')
             'Karma'
         ];
 
-        // tests
+        // items
         
-        $scope.tests = tests.query();
+        $scope.items = Items.query();
 
         $scope.displayRequirements = function (reqs) {
             var result = '';
@@ -38,17 +38,15 @@ angular.module('myApp')
 
         // description toggle
 
-        var selectedTest = null;
+        var selectedItem = null;
 
-        $scope.selectTest = function (test) {
-            // selectedTest = test;
-            selectedTest = ( selectedTest === test ) ? null : test;
+        $scope.selectItem = function (item) {
+            // selectedItem = item;
+            selectedItem = ( selectedItem === item ) ? null : item;
         }
 
-        $scope.isSelected = function (test) {
-            return test === selectedTest;
+        $scope.isSelected = function (item) {
+            return item === selectedItem;
         };
-
-        // $resource('/app/test').query();
-
+        
     }]);

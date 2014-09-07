@@ -2,37 +2,43 @@
 
 /**
  * @ngdoc function
- * @name myApp.services:LoginCtrl
+ * @name myApp.services: Items
  * @description
- * # LoginCtrl
+ * # Items
  * Service of the myApp
  */
 
 // service: easy to create a method on the object than factory
 angular.module('myApp')
-    .service('tests', function () {
+    .factory('ItemsNew', function($resource){
+        return $resource('/api/items/:id', { id: '@id'},
+                   { 'update': { method: 'PUT' } } );
+    })
+
+    //old query
+    .service('Items', function () {
         this.query = function(){
             return [
                 {
-                    name: 'test name',
+                    name: 'item name',
                     description: 'description...',
                     category: {
-                        name: 'test category name'
+                        name: 'item category name'
                     },
                     requirements: [
-                        { name: null, value: 'novice' },
-                        { name: 'vigor', value: 'd6' },
+                        { name: null, value: 'high' },
+                        { name: 'Rabbit', value: 'v1' },
                     ]
                 },
                 {
-                    name: 'test name 2',
+                    name: 'item name 2',
                     description: 'description 2...',
                     category: {
-                        name: 'test category name 2'
+                        name: 'item category name 2'
                     },
                     requirements: [
-                        { name: null, value: 'novice 2' },
-                        { name: 'vigor 2', value: 'd6 2' },
+                        { name: null, value: 'low' },
+                        { name: 'Sheep', value: 'v6 2' },
                     ]
                 }
             ]
