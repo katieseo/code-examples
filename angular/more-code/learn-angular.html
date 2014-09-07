@@ -1,0 +1,78 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+    <h2>Angular’s $apply() and $digest()</h2>
+
+    {{aModel}}
+
+    $scope.$watch('aModel', function(newValue, oldValue) {
+      //update the DOM with newValue
+    });
+
+    * AngularJS offers Data binding which change something in the view, the scope model automagically updates.
+    Similarly, whenever the scope model changes, the view updates itself with the new value.
+    How does does AngularJS do that? 
+
+    1. (ng-Click, ng-model, $timeout, etc (built-in directives/services that let you change models) function 
+       > change a scope model, automatically trigger a $digest cycle.
+        
+    2. Angular calls $scope.$apply() > it calls $rootScope.$digest()
+       > As a result of this, a digest cycle starts at the $rootScope, and subsequently visits all the child scopes calling the watchers along the way.
+    3. AngularJS automatically triggers $scope.$digest()
+    4. $digest cycle starts
+    5. $digest cycle fires each of the watchers
+    6. These watchers check if the current value of the scope model is different from last calculated value
+        and If yes, then the corresponding listener function executes.
+    7. As a result if you have any expressions in the view they will be updated.
+
+
+    ** When Do You Call $apply() Manually to triggers a $digest cycle
+
+        - when use Javascript's setTimeout() >>> use $timeout service
+
+            <div ng-app="myApp">
+              <div ng-controller="MessageController">
+                Delayed Message: {{message}}
+              </div>  
+            </div>
+
+            <script>
+                // $scope.$apply() automatically triggers $rootScope.$digest()
+
+                angular.module('myApp',[]).controller('MessageController', function($scope) {
+        
+                  $scope.getMessage = function() {
+                    setTimeout(function() {
+                      $scope.$apply(function() {
+                        //wrapped this within $apply
+                        $scope.message = 'Fetched after 3 seconds'; 
+                        console.log('message:' + $scope.message);
+                      });
+                    }, 2000);
+                  }
+                  
+                  $scope.getMessage();
+                
+                });
+            </script>
+
+            <script>
+                // can place a call to $apply() (the no-arg version) in the end
+
+                $scope.getMessage = function() {
+                  setTimeout(function() {
+                    $scope.message = 'Fetched after two seconds';
+                    console.log('message:' + $scope.message);
+                    $scope.$apply(); //this triggers a $digest
+                  }, 2000);
+                };
+            </script>
+
+
+
+</body>
+</html>
