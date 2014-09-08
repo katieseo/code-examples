@@ -72,7 +72,28 @@
                 };
             </script>
 
+    <h2>factory, services</h2>
+    
+    // Use service if you want to create a single object: 
+    // it gets called as a constructor so you just assign any methods to this
+    // and everything will share the same object.
+    // Result: When declaring serviceName as an injectable argument you will be provided with the instance of a function passed to module.service.
+    // Usage: Could be useful for sharing utility functions that are useful to invoke by simply appending () to the injected function reference. Could also be run with injectedArg.call( this ) or similar.
 
+
+    // Use factory if you want full control over whether or not an object is created 
+    // though it is still only called once.
+    // Result: When declaring factoryName as an injectable argument you will be provided the value that is returned by invoking the function reference passed to module.factory.
+    //Usage: Could be useful for returning a 'class' function that can then be new'ed to create instances.
+
+
+   // Factory use a factory function which return a service instance. serviceInstance = fnFactory();
+
+    //Service use a constructor function and Angular invoke this constructor function using 'new' keyword for creating the service instance. serviceInstance = new fnServiceConstructor();
+
+    // Use value to return a simple value,
+
+    // use const for values you can use within config.
 
 </body>
 </html>

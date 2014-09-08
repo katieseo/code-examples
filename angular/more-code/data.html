@@ -1,0 +1,102 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="listCtrl as list">
+        <ul>
+            <li ng-repeat="item in list.items">{{item.id}} - {{item.name}}</li>
+        </ul>
+    </div>
+    <div ng-controller="detailsCtrl as details">
+        <h2>Item Details</h2>
+        <h3>{{details.item.id}} - {{details.item.name}}</h3>
+    </div>
+
+     <div ng-controller="newItemCtrl as new">
+        <input type="text" ng-model="new.newItem.id">
+        <input type="text" ng-model="new.newItem.name">
+        <button ng-click="new.addItem()">Add</button>
+        {{new.newItem}}
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script>
+        angular.module('myApp',[])
+            .factory('itemFactory', ['$filter', function($filter){
+                var itemList = [
+                    { "id": 1, "name": "id 1 name" },
+                    { "id": 2, "name": "id 2 name" },
+                    { "id": 3, "name": "id 3 name" },
+                ];
+
+                var newItem = {
+                    name: '',
+                    done: false
+                };
+
+                var getItems = function(){
+                    return itemList;
+                };
+
+                var getAnItem = function(itemId){
+                    return $filter('filter')(itemList, function (d) {return d.id === itemId;})[0];
+                    //return _.find(results,function(rw){ return rw.id == 2 });
+                };
+
+                //
+
+                var update = function(item) {
+                    $http.put('/item/' + item._id + '.json', item).success(function(data) {
+                        if (!data.item) {
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+                };
+
+                var updateList = function(){
+                    $http.get('/items.json').success(function(data){
+                        itemList = data.items;
+                    });
+                };
+
+                var addNewItem = function() {
+                    $http.post('/item.json', newItem).success(function(data) {
+                        if (data.item) {
+                            items.push(data.item);
+                            newItem.description = '';
+                        } else {
+                            console.log(JSON.stringify(data));
+                        }
+                    });
+                };
+                
+                return {
+                    addItem: addNewItem,
+                    getItems: getItems,
+                    getAnItem: getAnItem
+                };
+            }])
+
+            .controller('newItemCtrl', ['itemFactory', function(itemFactory){
+                this.newItem = {};
+
+                this.addItem = function(){
+                    itemFactory.addNewItem( this.newItem );
+                    alert('added!');
+                };
+            }])
+
+            .controller('listCtrl', ['itemFactory', function(itemFactory){
+                this.items = itemFactory.getItems();
+            }])
+
+            .controller('detailsCtrl', ['itemFactory', function(itemFactory){
+                this.item = itemFactory.getAnItem(2);
+            }])
+
+    </script>
+</body>
+</html>
