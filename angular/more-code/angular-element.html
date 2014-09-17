@@ -1,0 +1,39 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>.active{color: red;}</style>
+</head>
+<body ng-app="myApp">
+    <hello></hello>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script>
+        angular.module('myApp',[])
+            .directive('hello', function(){
+                var textElem = angular.element( '<div>{{model.input}}</div>' );
+                
+                this.link = function(scope, elem){
+                    scope.$watch('model.input', function(value){
+                        if ( value == 'hello' ) {
+                            //elem.children(1).toggleClass('active');
+                            textElem.toggleClass('active');
+                        }
+                    })
+                };
+
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    template: '<div><input type="text" ng-model="model.input"></div>',
+                    compile: function(tElem){
+                        tElem.append( textElem );
+
+                        return link;
+                    } 
+                }
+            })
+    </script>
+</body>
+</html>
