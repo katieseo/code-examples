@@ -1,0 +1,45 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    
+</head>
+<body ng-app="myApp">
+    <ng-view></ng-view>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-route.js"></script>
+    <script>
+        angular.module('myApp',['ngRoute'])
+            .config(function($routeProvider){
+                $routeProvider
+                    .when('/map/:country/:state/:city', {
+                        templateUrl: 'view.html',
+                        controller: 'AppCtrl'
+                    })
+                    .when('/about/:address', {
+                        redirectTo: function(routeParams, path, search){
+                            console.log(routeParams);
+                            console.log(path);
+                            console.log(search); // ?state=bc
+                            return '/' + routeParams.address
+                        }
+                    })
+                    .when('/vancouver', {
+                        template: 'Hello, Vancouver!'
+                    })
+                    .otherwise({
+                        redirectTo: '/'
+                        //template: 'This page does not exist'
+                    })
+            })
+
+            .controller('AppCtrl', function($scope, $routeParams){
+                $scope.model = {
+                    message: 'Address: ' + $routeParams.country +', '+ $routeParams.state +', '+$routeParams.city 
+                }
+            })
+    </script>
+</body>
+</html>
