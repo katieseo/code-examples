@@ -1,0 +1,40 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>.active{color: red;}</style>
+</head>
+<body ng-app="myApp" ng-controller="StoreCtrl">
+    <store name="My Store" welcome="model.input" action="saySomething(msg)"></store>
+    Controller: {{model.input}}
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script>
+        angular.module('myApp',[])
+            .directive('store', function(){
+                return {
+                    restrict: 'E',
+                    scope: {
+                        name: '@',
+                        action: '&',
+                        welcome: '='
+                    },
+                    template: '<h2>@</h2>{{name}}' +
+                        
+                        '<h2>&</h2><input type="text" ng-model="value"><div ng-click="action({msg: value})">Type and Click</div>' + 
+                        
+                        '<h2>=</h2><input type="text" ng-model="welcome">'
+                }
+            })
+            .controller('StoreCtrl', function($scope){
+                $scope.saySomething = function( text ){
+                    alert( text );
+                }
+                $scope.model = {
+                    input: 'Welcome!'
+                }
+            })
+    </script>
+</body>
+</html>
