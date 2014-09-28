@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="styles/app.css">
+</head>
+<body ng-app="app">
+    <div class="container" ng-controller="MainCtrl as main" ng-init="main.init()">
+        <p>Search: <input type="text" ng-model="main.search"></p>
+        <ul class="nav">
+            <li><a href="" ng-click="main.nav = 'All'">All</a></li>
+            <li><a href="" ng-click="main.nav = 'Incomplete'">Incomplete</a></li>
+            <li><a href="" ng-click="main.nav = 'Complete'">Complete</a></li>
+        </ul>
+        <form>
+            <input type="text" placeholder="Add New Todo" ng-model="main.newTodo">
+            <button type="submit" ng-click="main.addTodo()">Add</button>
+        </form>
+
+        <ul ui-sortable="main.todoSortable" ng-model="main.todos">
+            <li ng-repeat="todo in main.todos | filter: main.search | filter: main.todoFilter">
+                <input type="checkbox" ng-model="todo.isDone">
+                <edit-in-place value="todo.name"></edit-in-place>
+                <a href="" ng-click="main.deleteTodo($index)">&times;</a>
+            </li>
+        </ul>
+        
+        {{ main.todos }}
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script src="scripts/vendor/sortable.js"></script>
+    <script src="scripts/vendor/angular-local-storage.min.js"></script>
+    <script src="scripts/app.module.js"></script>
+    <script src="scripts/app.service.js"></script>
+    <script src="scripts/app.controller.js"></script>
+    <script src="scripts/app.directive.js"></script>
+</body>
+</html>

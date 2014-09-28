@@ -1,0 +1,60 @@
+<!doctype HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    
+</head>
+<body ng-app="myApp" ng-controller="ResolveCtrl">
+    <ng-view></ng-view>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-route.js"></script>
+    <script>
+        angular.module('myApp',['ngRoute'])
+            .config(function($routeProvider){
+                $routeProvider
+                    .when('/', {
+                        templateUrl: 'view.html',
+                        controller: 'ResolveCtrl',
+                        resolve: {
+                            app: function($q, $timeout){
+                                var deferred = $q.defer();
+                                
+                                $timeout(function(){
+                                    deferred.resolve();
+                                }, 3000);
+
+                                return defer.promise;
+                            }
+                        }
+                    })
+            })
+
+            .controller('ResolveCtrl', function($scope){
+                $scope.model = {
+                    message: 'Im a awesome app!'
+                }
+            })
+
+            .controller('PromiseCtrl', function($scope, $q){
+                var defer = $q.defer();
+
+                defer.promise
+                    .then(function(weapon){
+                        alert('You can have my ' + weapon);
+                        return 'bow';
+                    })
+                    .then(function(weapon){
+                        alert('and my ' + weapon);
+                        return 'axe';
+                    })
+                    .then(function(weapon){
+                        alert('and my ' + weapon);
+                    })
+
+                defer.resolve('sword');
+            })
+    </script>
+</body>
+</html>

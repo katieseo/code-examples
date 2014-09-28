@@ -1,0 +1,25 @@
+.nav {
+    list-style: none;
+    padding: 0;
+}
+
+.nav li {
+    display: inline-block;
+    margin: 20px;
+}
+
+.edit-in-place {
+    cursor: pointer;
+}
+
+.edit-in-place input {
+    display: none;
+}
+
+.edit-in-place.active span {
+    display: none;
+}
+
+.edit-in-place.active input {
+    display: inline-block;
+}
